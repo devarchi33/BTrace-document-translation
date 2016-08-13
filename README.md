@@ -1,7 +1,7 @@
 # BTrace-document-translation
 BTrace User Guide 한국어 번역
 
-## BTrace 사용자 안내서
+## BTrace 사용자 안내서[https://kenai.com/projects/btrace/pages/UserGuide]
 
 ver. 1.2(20101020)
 **BTrace** 는 자바를 위한 안전하고, 동적인 추적 도구이다. BTrace 는 동작하고 있는 Java 프로그램의 클래스를 동적으로 조작 하면서 작동한다.
