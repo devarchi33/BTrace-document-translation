@@ -13,4 +13,8 @@ __Probe Point__
 
 __Trace Actions or Actions__
 
-  실행되는 추적 구문들은 언제든지 중단될 수 있다.(?)
+  probe 가 "fire" 할때마다 실행되는 추적 구문들.
+  
+  __Action Methods__
+  
+  probe 가 도착할 때마다 실행되는 추적 구문들은 class 의 static method  안에 정의 되어져 있다. 이러한 메소드들을 "action"이라고 부른다.
