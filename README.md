@@ -8,7 +8,9 @@ ver. 1.2(20101020)
 
 ## BTrace 용어
 __Probe Point__
+
   일련의 추적 구문이 실행되는 "location" 또는 "event". Probe Point 는 우리가 추적하길 원하는 구문들이 있는 "place" 또는 "event" 에 관심이 있다.
 
 __Trace Actions or Actions__
+
   실행되는 추적 구문들은 언제든지 중단될 수 있다.(?)
