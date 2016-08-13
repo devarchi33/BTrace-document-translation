@@ -46,7 +46,7 @@ __Trace Actions or Actions__
   
 이러한 제약조건들은 "unsafe" 모드로 BTrace 를 동작하면 피할 수 있다. 추적 스크립트 와 엔진 모두 "unsafe" 모드로 설정되어야만 한다. 이러한 스크립트들은 "@BTrace(unsafe=true)" annotation 이 붙어야 한다. 그리고 엔진은 unsafe 모드로 구동 되어야 한다.
 
-## 간단한 BTrace 프로그램 (1.2)
+## 간단한 BTrace 프로그램 (1.2 버전)
 ```
 // import all BTrace annotations
 import com.sun.btrace.annotations.*;
@@ -72,4 +72,46 @@ class HelloWorld {
   }
 }
 ```
+
+## 간단한 BTrace 프로그램 (1.2 미만 버전)
+```
+// import all BTrace annotations
+import com.sun.btrace.annotations.*;
+// import statics from BTraceUtils class
+import static com.sun.btrace.BTraceUtils.*;
+
+//@BTrace annotation tells that this is a BTrace program
+@BTrace
+public class HelloWorld {
+
+  // @OnMethod annotation tellls where to probe.
+  // 이 예제에서, Thread.start() 에 관심이 있다.
+  @OnMethod(
+    clazz="java.lang.Thread",
+    method="start"
+  )
+  public static void func() {
+    // print is defiened in BTraceUtils
+    // you can only call the static methods of BTraceUtils
+    println("about to start thread!");
+  }
+}  
+```
+위 BTrace 프로그램은 동작중인 Java 프로세스에 대하여 동작할 수 있다. 이 프로그램은 타겟 프로그램이 Thread.start() 에 의해서 thread 를 시작할 때만다 BTrace 클라이언트에 "about to start a thread!" 를 출력할 것이다. 다른 흥미로운 probe point들이 있다. 예를들면, 우리는 메소드 가 주는 리턴, 메소드가 던지는 익셉션, 메소드 안에있는 getter, setter, 객체/배열의 생성, 라인 넘버, 익셉션에 추적 action 을 삽입할 수 있다. 자세한 사항은 [@OnMethod and other annotations](https://kenai.com/projects/btrace/pages/UserGuide#btrace_anno)를 참조하길 부탁드린다.
+
+## BTrace 를 동작시키는 단계
+
+  1. 타겟 당신이 추적하길 원하는 Java 프로세스의 프로세스 아이디를 찾아라. 당신은 프로세스 아이디를 찾기 위해서 jps tool을 사용할 수 있다.
+  2. BTrace 프로그램을 작성하라. - 샘플들중에서 하나를 수정해서 시작할수 있다(?)
+  3. btrace tool 을 아래의 명령어로 동작 시켜라.
+  ```
+  btrace <pid> <btrace-script>
+  ```
+  
+## BTrace 명령어
+BTrace 는 아래에 보여지는 명령행을 사용해서 동작한다.
+```
+btrace [-I <include-path>] [-p <port>] [-cp <classpath>] <pid> <btrace-script> [<args>]
+```
+
  
