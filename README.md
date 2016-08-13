@@ -18,3 +18,12 @@ __Trace Actions or Actions__
   __Action Methods__
   
   probe 가 도착할 때마다 실행되는 추적 구문들은 class 의 static method  안에 정의 되어져 있다. 이러한 메소드들을 "action"이라고 부른다.
+  
+## BTrace Program 구조
+  하나의 BTrace 프로그램은 하나 또는 그이상의 plain java class 이다.
+  ```
+  public static void
+  ```
+  BTrace 어노테이션이 붙은 메소드들. 어노테이션들은 추적할 프로그램에서 "위치"를 특정해 준다.(probe points 라고 알려진)
+ 추적할 행위들은 static method 구문안에 놓인다. 이러한 메소드들이 "action" 메소드로서 참조 된다.
+ 
