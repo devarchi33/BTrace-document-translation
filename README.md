@@ -35,5 +35,41 @@ __Trace Actions or Actions__
   * 새로운 예외상황을 발생시킬 수 없다.
   * 임의의 인스턴스나 static 메소드를 호출할 수 없다. - 오직 com.sun.btrace.BTraceUtils 의 public static method 들 과 BTrace 프로그램안에서 선언된 메소들만 호출할 수 있다.
   * 1.2 이전 버전은 인스턴스 필드를 가질수 없다. 오직 static public void 를 return 하는 메소드들만 BTrace 프로그램안에서 허락되어진다. 그리고 모든 필드들은 static 지정어를 가져야만 한다.
-  * 
+  * 타겟이 되는 프로그햄의 클래스들 또는 객첵들에 static 또는 인스턴스 필드들을 할당할 수 없다.(추적의 상태는 변형될 수 있다.)
+  * outer, innerm nested 또는 local class 를 가질수 없다.
+  * synchronized 블록 또는 synchronized 메소드를 가질 수 없다.
+  * 반복구문을 가질 수 없다.(for, while, do~while)
+  * 임의의 클래스를 확장할 수 없다. (super class 는 java.lang.Object 이어야만 한다.)
+  * 인터페이스를 구현할 수 없다.
+  * assert 구문을 갖을 수 없다.
+  * class 리터럴을 사용할 수 없다.
+  
+이러한 제약조건들은 "unsafe" 모드로 BTrace 를 동작하면 피할 수 있다. 추적 스크립트 와 엔진 모두 "unsafe" 모드로 설정되어야만 한다. 이러한 스크립트들은 "@BTrace(unsafe=true)" annotation 이 붙어야 한다. 그리고 엔진은 unsafe 모드로 구동 되어야 한다.
+
+## 간단한 BTrace 프로그램 (1.2)
+```
+// import all BTrace annotations
+import com.sun.btrace.annotations.*;
+// import statics from BTraceUtils class
+import static com.sun.btrace.BTraceUtils.*;
+ 
+// @BTrace annotation tells that this is a BTrace program
+@BTrace
+class HelloWorld {
+ 
+  // @OnMethod annotation tells where to probe.
+  // 이 예시에서 java.lang.Thread 의 start() 에 진입하는데 관심이 있다.
+  @OnMethod(
+    clazz="java.lang.Thread",
+    method="start"
+  )
+  void func() {
+    sharedMethod(msg);
+  }
+  void sharedMethod(String msg) {
+    // println is defined in BTraceUtils
+    println(msg);
+  }
+}
+```
  
